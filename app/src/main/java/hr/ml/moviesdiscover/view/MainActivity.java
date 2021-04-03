@@ -1,8 +1,10 @@
-package hr.ml.moviesdiscover;
+package hr.ml.moviesdiscover.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import hr.ml.moviesdiscover.R;
 
 public class MainActivity extends AppCompatActivity {
 
