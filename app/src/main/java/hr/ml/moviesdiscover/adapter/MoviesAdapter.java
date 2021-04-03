@@ -14,14 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import hr.ml.moviesdiscover.R;
+import hr.ml.moviesdiscover.listener.OnMovieSelectedListener;
 import hr.ml.moviesdiscover.model.Movie;
 
-public class MoviesAdapter extends ListAdapter<Movie, MoviesAdapter.MovieViewHolder> {
+public class MoviesAdapter
+        extends ListAdapter<Movie, MoviesAdapter.MovieViewHolder> {
 
     private static final String imageBaseUrl = "https://image.tmdb.org/t/p/w185/";
 
-    public MoviesAdapter() {
+    OnMovieSelectedListener listener;
+
+    public MoviesAdapter(OnMovieSelectedListener listener) {
         super(new MovieDiffCallback());
+        this.listener = listener;
     }
 
     @NonNull
@@ -43,7 +48,7 @@ public class MoviesAdapter extends ListAdapter<Movie, MoviesAdapter.MovieViewHol
         }
     }
 
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView movieCover;
         private final TextView movieTitle;
@@ -53,6 +58,13 @@ public class MoviesAdapter extends ListAdapter<Movie, MoviesAdapter.MovieViewHol
 
             movieCover = itemView.findViewById(R.id.item_movie_cover);
             movieTitle = itemView.findViewById(R.id.item_movie_title);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.navigateToMovieSelected(getItem(getAdapterPosition()).getId());
+                }
+            });
         }
     }
 

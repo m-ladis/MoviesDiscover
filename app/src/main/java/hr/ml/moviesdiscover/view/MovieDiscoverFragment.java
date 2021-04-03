@@ -5,8 +5,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -16,9 +17,10 @@ import android.view.ViewGroup;
 
 import hr.ml.moviesdiscover.R;
 import hr.ml.moviesdiscover.adapter.MoviesAdapter;
+import hr.ml.moviesdiscover.listener.OnMovieSelectedListener;
 import hr.ml.moviesdiscover.viewmodel.MovieDiscoverViewModel;
 
-public class MovieDiscoverFragment extends Fragment {
+public class MovieDiscoverFragment extends Fragment implements OnMovieSelectedListener {
     private static final String TAG = "MovieDiscoverFragment";
 
     private RecyclerView moviesRecyclerView;
@@ -49,7 +51,7 @@ public class MovieDiscoverFragment extends Fragment {
         MovieDiscoverViewModel viewModel = new ViewModelProvider(this)
                 .get(MovieDiscoverViewModel.class);
 
-        MoviesAdapter adapter = new MoviesAdapter();
+        MoviesAdapter adapter = new MoviesAdapter(this);
         moviesRecyclerView.setAdapter(adapter);
 
         viewModel.movies.observe(getViewLifecycleOwner(), movies -> {
@@ -69,5 +71,14 @@ public class MovieDiscoverFragment extends Fragment {
                     break;
             }
         });
+    }
+
+    @Override
+    public void navigateToMovieSelected(int movieId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("movieId", movieId);
+
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.action_movieDiscoverFragment_to_movieDetailsFragment, bundle);
     }
 }
