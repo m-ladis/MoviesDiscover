@@ -5,4 +5,7 @@
     <string name="hello_details_fragment">Hello details fragment</string>
     <string name="cast_label">Cast</string>
     <string name="share_movie">Share</string>
+    <string name="box_office_label">Box office</string>
+    <string name="budget_label">Budget</string>
+    <string name="movie_revenue_label">Revenue</string>
 </resources>

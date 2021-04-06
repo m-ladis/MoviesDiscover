@@ -28,7 +28,10 @@ import hr.ml.moviesdiscover.R;
 import hr.ml.moviesdiscover.adapter.MovieCastAdapter;
 import hr.ml.moviesdiscover.model.Movie;
 import hr.ml.moviesdiscover.rest.model.CastFromRetrofit;
+import hr.ml.moviesdiscover.rest.model.GenreFromRetrofit;
+import hr.ml.moviesdiscover.rest.model.MovieDetailsFromRetrofit;
 import hr.ml.moviesdiscover.util.TmdbImageUrl;
+import hr.ml.moviesdiscover.util.UiListToString;
 import hr.ml.moviesdiscover.viewmodel.MovieDetailsViewModel;
 import hr.ml.moviesdiscover.viewmodel.SharedDataViewModel;
 
@@ -38,11 +41,17 @@ public class MovieDetailsFragment extends Fragment {
     private ImageView movieImage;
     private TextView movieTitle;
     private TextView movieYear;
+    private TextView movieGenres;
     private TextView movieRating;
     private TextView movieDescription;
+    private TextView movieRevenueLabel;
+    private TextView movieRevenue;
+    private TextView movieBudgetLabel;
+    private TextView movieBudget;
     private RecyclerView castRecyclerView;
 
     private SharedDataViewModel sharedViewModel;
+    private MovieDetailsViewModel viewModel;
 
     public MovieDetailsFragment() {
         // Required empty public constructor
@@ -69,33 +78,30 @@ public class MovieDetailsFragment extends Fragment {
 
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedDataViewModel.class);
 
-        MovieDetailsViewModel viewModel = new ViewModelProvider(this)
-                .get(MovieDetailsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MovieDetailsViewModel.class);
 
         movieImage = view.findViewById(R.id.movie_image);
         movieTitle = view.findViewById(R.id.movie_title);
         movieYear = view.findViewById(R.id.movie_year);
+        movieGenres = view.findViewById(R.id.movie_genres);
         movieRating = view.findViewById(R.id.movie_rating);
         movieDescription = view.findViewById(R.id.movie_description);
         castRecyclerView = view.findViewById(R.id.recycler_view_cast);
+        movieRevenueLabel = view.findViewById(R.id.movie_revenue_label);
+        movieRevenue = view.findViewById(R.id.movie_revenue);
+        movieBudgetLabel = view.findViewById(R.id.movie_budget_label);
+        movieBudget = view.findViewById(R.id.movie_budget);
 
         MovieCastAdapter castAdapter = new MovieCastAdapter();
         castRecyclerView.setAdapter(castAdapter);
 
         sharedViewModel.selectedMovie.observe(requireActivity(), movie -> {
-            viewModel.requestMoviesDetails(movie.getId());
-            viewModel.requestMovieCast(movie.getId());
-            movieTitle.setText(String.valueOf(movie.getTitle()));
-            movieYear.setText("(" + movie.getReleaseDate() + ")");
-            movieRating.setText(movie.getVoteAverage() + "/10\nVotes: " + movie.getVoteCount());
-            String imageUrl = TmdbImageUrl
-                    .generatePosterUrl(movie.getPosterPath(), TmdbImageUrl.PosterWidth.w342);
-            Picasso.get().load(imageUrl).into(movieImage);
+            updateUiWith(movie);
         });
 
         viewModel.movieDetails.observe(getViewLifecycleOwner(), movieDetailsFromRetrofit -> {
             if(movieDetailsFromRetrofit != null) {
-                movieDescription.setText(String.valueOf(movieDetailsFromRetrofit.getOverview()));
+                updateUiWith(movieDetailsFromRetrofit);
             } else Log.d(TAG, "request_failed");
         });
 
@@ -106,6 +112,32 @@ public class MovieDetailsFragment extends Fragment {
                 else Log.d(TAG, "request_failed");
             }
         });
+    }
+
+    private void updateUiWith(Movie movie) {
+        viewModel.requestMoviesDetails(movie.getId());
+        viewModel.requestMovieCast(movie.getId());
+        movieTitle.setText(String.valueOf(movie.getTitle()));
+        movieYear.setText("(" + movie.getReleaseDate() + ")");
+        movieRating.setText(movie.getVoteAverage() + "/10\nVotes: " + movie.getVoteCount());
+        String imageUrl = TmdbImageUrl
+                .generatePosterUrl(movie.getPosterPath(), TmdbImageUrl.PosterWidth.w342);
+        Picasso.get().load(imageUrl).into(movieImage);
+    }
+
+    private void updateUiWith(MovieDetailsFromRetrofit movieDetailsFromRetrofit) {
+        movieGenres.setText(UiListToString.genresToString(movieDetailsFromRetrofit.getGenres()));
+        movieDescription.setText(String.valueOf(movieDetailsFromRetrofit.getOverview()));
+
+        if(movieDetailsFromRetrofit.getBudget() > 0) {
+            movieBudgetLabel.setVisibility(View.VISIBLE);
+            movieBudget.setText("$" + movieDetailsFromRetrofit.getBudget());
+        }
+
+        if(movieDetailsFromRetrofit.getRevenue() > 0) {
+            movieRevenueLabel.setVisibility(View.VISIBLE);
+            movieRevenue.setText("$" + movieDetailsFromRetrofit.getRevenue());
+        }
     }
 
 
