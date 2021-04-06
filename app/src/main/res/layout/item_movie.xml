@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_toEndOf="@id/item_movie_cover"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/primary_text"/>
 
         <TextView
             android:id="@+id/item_movie_date"
