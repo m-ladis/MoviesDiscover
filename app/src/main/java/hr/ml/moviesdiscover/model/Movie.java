@@ -8,9 +8,10 @@ public class Movie {
     private String posterPath;
     private Float voteAverage;
     private Integer voteCount;
+    private String overview;
 
     public Movie(Integer id, String title, String originalLanguage, String releaseDate,
-                 String posterPath, Float voteAverage, Integer voteCount) {
+                 String posterPath, Float voteAverage, Integer voteCount, String overview) {
         this.id = id;
         this.title = title;
         this.originalLanguage = originalLanguage;
@@ -18,6 +19,7 @@ public class Movie {
         this.posterPath = posterPath;
         this.voteAverage = voteAverage;
         this.voteCount = voteCount;
+        this.overview = overview;
     }
 
     public Integer getId() {
@@ -74,5 +76,13 @@ public class Movie {
 
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 }

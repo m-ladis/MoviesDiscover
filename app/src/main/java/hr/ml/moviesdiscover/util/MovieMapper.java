@@ -17,7 +17,7 @@ public class MovieMapper {
             movies.add(new Movie(movieFromRetrofit.getId(), movieFromRetrofit.getTitle(),
                     movieFromRetrofit.getOriginalLanguage(), movieFromRetrofit.getReleaseDate(),
                     movieFromRetrofit.getPosterPath(), movieFromRetrofit.getVoteAverage(),
-                    movieFromRetrofit.getVoteCount()));
+                    movieFromRetrofit.getVoteCount(), movieFromRetrofit.getOverview()));
 
         }
 

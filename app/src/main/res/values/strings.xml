@@ -8,4 +8,5 @@
     <string name="box_office_label">Box office</string>
     <string name="budget_label">Budget</string>
     <string name="movie_revenue_label">Revenue</string>
+    <string name="movie_overview_label">Overview</string>
 </resources>

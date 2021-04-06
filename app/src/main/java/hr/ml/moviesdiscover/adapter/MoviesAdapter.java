@@ -43,6 +43,8 @@ public class MoviesAdapter
                 .generatePosterUrl(movieAtPosition.getPosterPath(), TmdbImageUrl.PosterWidth.w185);
 
         holder.movieTitle.setText(movieAtPosition.getTitle());
+        holder.movieDate.setText(movieAtPosition.getReleaseDate());
+        holder.movieDescription.setText(movieAtPosition.getOverview());
         Picasso.get().load(imageUrl).into(holder.movieCover);
     }
 
@@ -50,12 +52,16 @@ public class MoviesAdapter
 
         private final ImageView movieCover;
         private final TextView movieTitle;
+        private final TextView movieDate;
+        private final TextView movieDescription;
 
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
 
             movieCover = itemView.findViewById(R.id.item_movie_cover);
             movieTitle = itemView.findViewById(R.id.item_movie_title);
+            movieDate = itemView.findViewById(R.id.item_movie_date);
+            movieDescription = itemView.findViewById(R.id.item_movie_description);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
