@@ -1,32 +1,86 @@
 package hr.ml.moviesdiscover.rest.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class MovieDetailsFromRetrofit {
+
+    @SerializedName("adult")
+    @Expose
     private boolean adult;
+    @SerializedName("backdrop_path")
+    @Expose
     private String backdropPath;
+    @SerializedName("belongs_to_collection")
+    @Expose
     private Object belongsToCollection;
+    @SerializedName("budget")
+    @Expose
     private int budget;
-    private List<GenreFromRetrofit> genres = null;
+    @SerializedName("genres")
+    @Expose
+    private List<GenreFromRetrofit> genres;
+    @SerializedName("homepage")
+    @Expose
     private String homepage;
+    @SerializedName("id")
+    @Expose
     private int id;
+    @SerializedName("imdb_id")
+    @Expose
     private String imdbId;
+    @SerializedName("original_language")
+    @Expose
     private String originalLanguage;
+    @SerializedName("original_title")
+    @Expose
     private String originalTitle;
+    @SerializedName("overview")
+    @Expose
     private String overview;
+    @SerializedName("popularity")
+    @Expose
     private float popularity;
+    @SerializedName("poster_path")
+    @Expose
     private String posterPath;
-    private List<ProductionCompanyFromRetrofit> productionCompanies = null;
-    private List<ProductionCompanyFromRetrofit> productionCountries = null;
+    @SerializedName("production_companies")
+    @Expose
+    private List<ProductionCompanyFromRetrofit> productionCompanies;
+    @SerializedName("production_countries")
+    @Expose
+    private List<ProductionCompanyFromRetrofit> productionCountries;
+    @SerializedName("release_date")
+    @Expose
     private String releaseDate;
+    @SerializedName("revenue")
+    @Expose
     private int revenue;
+    @SerializedName("runtime")
+    @Expose
     private int runtime;
-    private List<SpokenLanguageFromRetrofit> spokenLanguages = null;
+    @SerializedName("spoken_languages")
+    @Expose
+    private List<SpokenLanguageFromRetrofit> spokenLanguages;
+    @SerializedName("status")
+    @Expose
     private String status;
+    @SerializedName("tagline")
+    @Expose
     private String tagline;
+    @SerializedName("title")
+    @Expose
     private String title;
+    @SerializedName("video")
+    @Expose
     private boolean video;
+    @SerializedName("vote_average")
+    @Expose
     private float voteAverage;
+    @SerializedName("vote_count")
+    @Expose
     private int voteCount;
 
     public boolean isAdult() {

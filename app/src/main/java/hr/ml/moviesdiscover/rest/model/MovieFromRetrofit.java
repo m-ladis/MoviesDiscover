@@ -14,7 +14,7 @@ public class MovieFromRetrofit {
     private String backdropPath;
     @SerializedName("genre_ids")
     @Expose
-    private List<Integer> genreIds = null;
+    private List<Integer> genreIds;
     @SerializedName("id")
     @Expose
     private Integer id;

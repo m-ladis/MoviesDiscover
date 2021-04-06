@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import hr.ml.moviesdiscover.R;
 import hr.ml.moviesdiscover.adapter.MoviesAdapter;
@@ -26,6 +27,7 @@ public class MovieDiscoverFragment extends Fragment implements OnMovieSelectedLi
     private static final String TAG = "MovieDiscoverFragment";
 
     private RecyclerView moviesRecyclerView;
+    private ProgressBar progressBar;
 
     private SharedDataViewModel sharedViewModel;
 
@@ -51,6 +53,7 @@ public class MovieDiscoverFragment extends Fragment implements OnMovieSelectedLi
 
         // Referencing views
         moviesRecyclerView = view.findViewById(R.id.recycler_view_movies);
+        progressBar = view.findViewById(R.id.progress_circular);
 
         sharedViewModel = new ViewModelProvider(requireActivity())
                 .get(SharedDataViewModel.class);
@@ -62,6 +65,8 @@ public class MovieDiscoverFragment extends Fragment implements OnMovieSelectedLi
         moviesRecyclerView.setAdapter(adapter);
 
         viewModel.movies.observe(getViewLifecycleOwner(), movies -> {
+            progressBar.setVisibility(View.GONE);
+
             if(movies != null){
                 adapter.submitList(movies);
             } else Log.d(TAG, "request_failed");

@@ -1,8 +1,18 @@
 package hr.ml.moviesdiscover.rest.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class SpokenLanguageFromRetrofit {
+
+    @SerializedName("english_name")
+    @Expose
     private String englishName;
+    @SerializedName("iso_639_1")
+    @Expose
     private String iso6391;
+    @SerializedName("name")
+    @Expose
     private String name;
 
     public String getEnglishName() {
