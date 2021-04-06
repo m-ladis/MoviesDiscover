@@ -39,7 +39,7 @@ public class MovieCastAdapter extends
                 .generateProfileUrl(cast.getProfilePath(), TmdbImageUrl.ProfileWidth.w185);
 
         holder.cast_name.setText(cast.getName());
-        Picasso.get().load(imageUrl).placeholder(R.drawable.ic_baseline_portrait_24)
+        Picasso.get().load(imageUrl).placeholder(R.drawable.ic_baseline_portrait)
                 .into(holder.cast_image);
     }
 

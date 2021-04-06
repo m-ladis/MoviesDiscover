@@ -28,7 +28,6 @@ import hr.ml.moviesdiscover.R;
 import hr.ml.moviesdiscover.adapter.MovieCastAdapter;
 import hr.ml.moviesdiscover.model.Movie;
 import hr.ml.moviesdiscover.rest.model.CastFromRetrofit;
-import hr.ml.moviesdiscover.rest.model.GenreFromRetrofit;
 import hr.ml.moviesdiscover.rest.model.MovieDetailsFromRetrofit;
 import hr.ml.moviesdiscover.util.TmdbImageUrl;
 import hr.ml.moviesdiscover.util.UiListToString;
@@ -120,14 +119,17 @@ public class MovieDetailsFragment extends Fragment {
         movieTitle.setText(String.valueOf(movie.getTitle()));
         movieYear.setText("(" + movie.getReleaseDate() + ")");
         movieRating.setText(movie.getVoteAverage() + "/10\nVotes: " + movie.getVoteCount());
+        movieDescription.setText(movie.getOverview());
         String imageUrl = TmdbImageUrl
                 .generatePosterUrl(movie.getPosterPath(), TmdbImageUrl.PosterWidth.w342);
-        Picasso.get().load(imageUrl).into(movieImage);
+        Picasso.get()
+                .load(imageUrl)
+                .placeholder(R.drawable.ic_outline_image)
+                .into(movieImage);
     }
 
     private void updateUiWith(MovieDetailsFromRetrofit movieDetailsFromRetrofit) {
         movieGenres.setText(UiListToString.genresToString(movieDetailsFromRetrofit.getGenres()));
-        movieDescription.setText(String.valueOf(movieDetailsFromRetrofit.getOverview()));
 
         if(movieDetailsFromRetrofit.getBudget() > 0) {
             movieBudgetLabel.setVisibility(View.VISIBLE);
