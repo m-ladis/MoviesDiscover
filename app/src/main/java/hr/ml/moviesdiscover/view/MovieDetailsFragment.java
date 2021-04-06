@@ -1,5 +1,6 @@
 package hr.ml.moviesdiscover.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,6 +26,7 @@ import java.util.List;
 
 import hr.ml.moviesdiscover.R;
 import hr.ml.moviesdiscover.adapter.MovieCastAdapter;
+import hr.ml.moviesdiscover.model.Movie;
 import hr.ml.moviesdiscover.rest.model.CastFromRetrofit;
 import hr.ml.moviesdiscover.util.TmdbImageUrl;
 import hr.ml.moviesdiscover.viewmodel.MovieDetailsViewModel;
@@ -58,6 +63,9 @@ public class MovieDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // fragment changes appbar
+        setHasOptionsMenu(true);
 
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedDataViewModel.class);
 
@@ -98,5 +106,34 @@ public class MovieDetailsFragment extends Fragment {
                 else Log.d(TAG, "request_failed");
             }
         });
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_movie_details, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.share_movie:
+                shareMovie();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void shareMovie() {
+        Movie movieToShare = sharedViewModel.selectedMovie.getValue();
+
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = "Check out movie: " + movieToShare.getTitle()
+                + " (" + movieToShare.getReleaseDate() + ")!";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Discover movie");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 }
