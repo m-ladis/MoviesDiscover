@@ -1,6 +1,7 @@
 package hr.ml.moviesdiscover.rest;
 
 import hr.ml.moviesdiscover.rest.model.DiscoveredMoviesFromRetrofit;
+import hr.ml.moviesdiscover.rest.model.MovieCreditsFromRetrofit;
 import hr.ml.moviesdiscover.rest.model.MovieDetailsFromRetrofit;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -19,5 +20,9 @@ public interface TmdbApi {
     @GET("movie/{id}")
     Call<MovieDetailsFromRetrofit> getMovieDetails(@Path("id") int movieId,
                                                    @Query("api_key") String API_KEY);
+
+    @GET("movie/{id}/credits")
+    Call<MovieCreditsFromRetrofit> getMovieCredits(@Path("id") int movieId,
+                                                @Query("api_key") String API_KEY);
 
 }

@@ -3,4 +3,5 @@
 
     <string name="hello_discover_fragment">Hello movies fragment</string>
     <string name="hello_details_fragment">Hello details fragment</string>
+    <string name="cast_label">Cast</string>
 </resources>

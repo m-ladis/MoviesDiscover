@@ -39,13 +39,11 @@ public class MoviesAdapter
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         Movie movieAtPosition = getItem(position);
-        if(movieAtPosition != null) {
-            holder.movieTitle.setText(movieAtPosition.getTitle());
+        String imageUrl = TmdbImageUrl
+                .generatePosterUrl(movieAtPosition.getPosterPath(), TmdbImageUrl.PosterWidth.w185);
 
-            String imageUrl = TmdbImageUrl
-                    .generatePosterUrl(movieAtPosition.getPosterPath(), TmdbImageUrl.PosterWidth.w185);
-            Picasso.get().load(imageUrl).into(holder.movieCover);
-        }
+        holder.movieTitle.setText(movieAtPosition.getTitle());
+        Picasso.get().load(imageUrl).into(holder.movieCover);
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {
