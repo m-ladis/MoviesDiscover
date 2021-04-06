@@ -6,7 +6,7 @@ import hr.ml.moviesdiscover.BuildConfig;
 import hr.ml.moviesdiscover.model.Movie;
 import hr.ml.moviesdiscover.rest.TmdbApi;
 import hr.ml.moviesdiscover.rest.TmdbRetrofitService;
-import hr.ml.moviesdiscover.rest.model.DiscoveredMovies;
+import hr.ml.moviesdiscover.rest.model.DiscoveredMoviesFromRetrofit;
 import hr.ml.moviesdiscover.rest.model.MovieFromRetrofit;
 import hr.ml.moviesdiscover.util.MovieMapper;
 import hr.ml.moviesdiscover.viewmodel.IMovieDiscoverViewModel;
@@ -14,7 +14,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MoviesRepository implements IMoviesRepository, Callback<DiscoveredMovies> {
+public class MoviesRepository implements IMoviesRepository, Callback<DiscoveredMoviesFromRetrofit> {
 
     private TmdbApi tmdbApi;
 
@@ -26,7 +26,7 @@ public class MoviesRepository implements IMoviesRepository, Callback<DiscoveredM
     }
 
     public void requestMovies() {
-        Call<DiscoveredMovies> discoveredMoviesFromApi = tmdbApi
+        Call<DiscoveredMoviesFromRetrofit> discoveredMoviesFromApi = tmdbApi
                 .getDiscoveredMovies(BuildConfig.API_KEY, "popularity.desc",
                         false, false, 1);
 
@@ -34,7 +34,8 @@ public class MoviesRepository implements IMoviesRepository, Callback<DiscoveredM
     }
 
     @Override
-    public void onResponse(Call<DiscoveredMovies> call, Response<DiscoveredMovies> response) {
+    public void onResponse(Call<DiscoveredMoviesFromRetrofit> call,
+                           Response<DiscoveredMoviesFromRetrofit> response) {
         if (call.isExecuted()) {
             if(response.body() != null) {
                 List<MovieFromRetrofit> moviesFromRetrofit = response.body().getResults();
@@ -42,12 +43,12 @@ public class MoviesRepository implements IMoviesRepository, Callback<DiscoveredM
                 viewModel.fetchMovies(movies);
             }
         } else if (call.isCanceled()) {
-            viewModel.requestCanceled();
+            viewModel.fetchMovies(null);
         }
     }
 
     @Override
-    public void onFailure(Call<DiscoveredMovies> call, Throwable t) {
-        viewModel.requestFailed();
+    public void onFailure(Call<DiscoveredMoviesFromRetrofit> call, Throwable t) {
+        viewModel.fetchMovies(null);
     }
 }

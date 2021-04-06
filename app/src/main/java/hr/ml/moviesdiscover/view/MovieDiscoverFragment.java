@@ -18,12 +18,16 @@ import android.view.ViewGroup;
 import hr.ml.moviesdiscover.R;
 import hr.ml.moviesdiscover.adapter.MoviesAdapter;
 import hr.ml.moviesdiscover.listener.OnMovieSelectedListener;
+import hr.ml.moviesdiscover.model.Movie;
 import hr.ml.moviesdiscover.viewmodel.MovieDiscoverViewModel;
+import hr.ml.moviesdiscover.viewmodel.SharedDataViewModel;
 
 public class MovieDiscoverFragment extends Fragment implements OnMovieSelectedListener {
     private static final String TAG = "MovieDiscoverFragment";
 
     private RecyclerView moviesRecyclerView;
+
+    private SharedDataViewModel sharedViewModel;
 
     public MovieDiscoverFragment() {
         // Required empty public constructor
@@ -48,6 +52,9 @@ public class MovieDiscoverFragment extends Fragment implements OnMovieSelectedLi
         // Referencing views
         moviesRecyclerView = view.findViewById(R.id.recycler_view_movies);
 
+        sharedViewModel = new ViewModelProvider(requireActivity())
+                .get(SharedDataViewModel.class);
+
         MovieDiscoverViewModel viewModel = new ViewModelProvider(this)
                 .get(MovieDiscoverViewModel.class);
 
@@ -55,30 +62,17 @@ public class MovieDiscoverFragment extends Fragment implements OnMovieSelectedLi
         moviesRecyclerView.setAdapter(adapter);
 
         viewModel.movies.observe(getViewLifecycleOwner(), movies -> {
-            adapter.submitList(movies);
-        });
-
-        viewModel.requestStatus.observe(getViewLifecycleOwner(), requestStatus -> {
-            switch (requestStatus){
-                case REQUEST_OK:
-                    Log.d(TAG, "request_ok");
-                    break;
-                case REQUEST_FAILED:
-                    Log.d(TAG, "request_failed");
-                    break;
-                case REQUEST_CANCELLED:
-                    Log.d(TAG, "request_cancelled");
-                    break;
-            }
+            if(movies != null){
+                adapter.submitList(movies);
+            } else Log.d(TAG, "request_failed");
         });
     }
 
     @Override
-    public void navigateToMovieSelected(int movieId) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("movieId", movieId);
+    public void navigateToMovieSelected(Movie movie) {
+        sharedViewModel.setSelectedMovieId(movie);
 
         NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(R.id.action_movieDiscoverFragment_to_movieDetailsFragment, bundle);
+        navController.navigate(R.id.action_movieDiscoverFragment_to_movieDetailsFragment);
     }
 }
