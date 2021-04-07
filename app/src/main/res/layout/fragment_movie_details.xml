@@ -50,9 +50,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="0dp">
+            android:layout_marginBottom="8dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -106,6 +106,12 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp">
 
+                <ProgressBar
+                    android:id="@+id/progress_actors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible" />
+
                 <TextView
                     android:id="@+id/cast_label"
                     android:layout_width="wrap_content"
@@ -137,6 +143,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp">
+
+                <ProgressBar
+                    android:id="@+id/progress_box_office"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/box_office_label"

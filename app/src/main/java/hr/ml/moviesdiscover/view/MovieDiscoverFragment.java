@@ -1,5 +1,6 @@
 package hr.ml.moviesdiscover.view;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,7 +11,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +30,7 @@ public class MovieDiscoverFragment extends Fragment implements OnMovieSelectedLi
     private ProgressBar progressBar;
 
     private SharedDataViewModel sharedViewModel;
+    private MovieDiscoverViewModel viewModel;
 
     public MovieDiscoverFragment() {
         // Required empty public constructor
@@ -58,18 +59,18 @@ public class MovieDiscoverFragment extends Fragment implements OnMovieSelectedLi
         sharedViewModel = new ViewModelProvider(requireActivity())
                 .get(SharedDataViewModel.class);
 
-        MovieDiscoverViewModel viewModel = new ViewModelProvider(this)
+        viewModel = new ViewModelProvider(this)
                 .get(MovieDiscoverViewModel.class);
 
         MoviesAdapter adapter = new MoviesAdapter(this);
         moviesRecyclerView.setAdapter(adapter);
 
         viewModel.movies.observe(getViewLifecycleOwner(), movies -> {
-            progressBar.setVisibility(View.GONE);
 
             if(movies != null){
+                progressBar.setVisibility(View.GONE);
                 adapter.submitList(movies);
-            } else Log.d(TAG, "request_failed");
+            } else showRequestFailedAlertDialog();
         });
     }
 
@@ -79,5 +80,16 @@ public class MovieDiscoverFragment extends Fragment implements OnMovieSelectedLi
 
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.action_movieDiscoverFragment_to_movieDetailsFragment);
+    }
+
+    private void showRequestFailedAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.failure_alert_dialog_title);
+        builder.setMessage(R.string.failure_alert_dialog_message);
+        builder.setPositiveButton(R.string.failure_alert_dialog_button_text, (dialog, which) -> {
+            dialog.dismiss();
+            viewModel.requestMovie();
+        });
+        builder.create().show();
     }
 }

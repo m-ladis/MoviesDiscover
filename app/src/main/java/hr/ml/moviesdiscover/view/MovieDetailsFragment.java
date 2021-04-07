@@ -1,5 +1,7 @@
 package hr.ml.moviesdiscover.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -37,6 +40,8 @@ import hr.ml.moviesdiscover.viewmodel.SharedDataViewModel;
 public class MovieDetailsFragment extends Fragment {
     private static final String TAG = "MovieDetailsFragment";
 
+    private ProgressBar progressBarActors;
+    private ProgressBar progressBarBoxOffice;
     private ImageView movieImage;
     private TextView movieTitle;
     private TextView movieYear;
@@ -79,6 +84,8 @@ public class MovieDetailsFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(MovieDetailsViewModel.class);
 
+        progressBarActors = view.findViewById(R.id.progress_actors);
+        progressBarBoxOffice = view.findViewById(R.id.progress_box_office);
         movieImage = view.findViewById(R.id.movie_image);
         movieTitle = view.findViewById(R.id.movie_title);
         movieYear = view.findViewById(R.id.movie_year);
@@ -99,6 +106,8 @@ public class MovieDetailsFragment extends Fragment {
         });
 
         viewModel.movieDetails.observe(getViewLifecycleOwner(), movieDetailsFromRetrofit -> {
+            progressBarBoxOffice.setVisibility(View.GONE);
+
             if(movieDetailsFromRetrofit != null) {
                 updateUiWith(movieDetailsFromRetrofit);
             } else Log.d(TAG, "request_failed");
@@ -107,6 +116,8 @@ public class MovieDetailsFragment extends Fragment {
         viewModel.movieCast.observe(getViewLifecycleOwner(), new Observer<List<CastFromRetrofit>>() {
             @Override
             public void onChanged(List<CastFromRetrofit> castFromRetrofits) {
+                progressBarActors.setVisibility(View.GONE);
+
                 if(castFromRetrofits != null) castAdapter.submitList(castFromRetrofits);
                 else Log.d(TAG, "request_failed");
             }

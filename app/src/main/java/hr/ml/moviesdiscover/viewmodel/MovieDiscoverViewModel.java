@@ -17,18 +17,24 @@ public class MovieDiscoverViewModel extends AndroidViewModel implements IMovieDi
 
     public MutableLiveData<List<Movie>> movies = new MutableLiveData<>();
 
+    private MoviesRepository repository;
+
     public MovieDiscoverViewModel(@NonNull Application application) {
         super(application);
 
         Log.d(TAG, "MovieDiscoverViewModel: created");
 
-        MoviesRepository repository = new MoviesRepository(this);
+        repository = new MoviesRepository(this);
         repository.requestMovies();
     }
 
     @Override
     public void fetchMovies(List<Movie> discoveredMovies) {
         movies.setValue(discoveredMovies);
+    }
+
+    public void requestMovie() {
+        repository.requestMovies();
     }
 
 }
