@@ -39,8 +39,8 @@ public class MoviesAdapter
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         Movie movieAtPosition = getItem(position);
-        String imageUrl = TmdbImageUrl
-                .generatePosterUrl(movieAtPosition.getPosterPath(), TmdbImageUrl.PosterWidth.w185);
+        String imageUrl = TmdbImageUrl.Companion
+                .generatePosterUrl(movieAtPosition.getPosterPath(), TmdbImageUrl.PosterWidth.W185);
 
         holder.movieTitle.setText(movieAtPosition.getTitle());
         holder.movieDate.setText(movieAtPosition.getReleaseDate());
@@ -76,7 +76,7 @@ public class MoviesAdapter
 
         @Override
         public boolean areItemsTheSame(@NonNull Movie oldItem, @NonNull Movie newItem) {
-            return oldItem.getId().equals(newItem.getId());
+            return oldItem.getId() == newItem.getId();
         }
 
         @Override

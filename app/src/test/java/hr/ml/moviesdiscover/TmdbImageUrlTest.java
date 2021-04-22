@@ -14,22 +14,22 @@ public class TmdbImageUrlTest {
 
     @Test
     public void profileImageUrl_isCorrect() {
-        String url = TmdbImageUrl.generateProfileUrl(
-                "/oTB9vGIBacH5aQNS0pUM74QSWuf.jpg", TmdbImageUrl.ProfileWidth.w45);
+        String url = TmdbImageUrl.Companion.generateProfileUrl(
+                "/oTB9vGIBacH5aQNS0pUM74QSWuf.jpg", TmdbImageUrl.ProfileWidth.W45);
         assertEquals(profileUrl, url);
     }
 
     @Test
     public void posterImageUrl_isCorrect() {
-        String url = TmdbImageUrl.generatePosterUrl(
-                "/8WUVHemHFH2ZIP6NWkwlHWsyrEL.jpg", TmdbImageUrl.PosterWidth.w185);
+        String url = TmdbImageUrl.Companion.generatePosterUrl(
+                "/8WUVHemHFH2ZIP6NWkwlHWsyrEL.jpg", TmdbImageUrl.PosterWidth.W185);
         assertEquals(posterUrl, url);
     }
 
     @Test
     public void backdropImageUrl_isCorrect() {
-        String url = TmdbImageUrl.generateBackdropUrl(
-                "/jMWkd0fuwbG39eJpzycJzPWMCww.jpg", TmdbImageUrl.BackdropWidth.w300);
+        String url = TmdbImageUrl.Companion.generateBackdropUrl(
+                "/jMWkd0fuwbG39eJpzycJzPWMCww.jpg", TmdbImageUrl.BackdropWidth.W300);
         assertEquals(backdropUrl, url);
     }
 }

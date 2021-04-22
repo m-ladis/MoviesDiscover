@@ -22,7 +22,7 @@ public class MoviesRepository implements IMoviesRepository, Callback<DiscoveredM
 
     public MoviesRepository(IMovieDiscoverViewModel viewModel) {
         this.viewModel = viewModel;
-        tmdbApi = TmdbRetrofitService.getInstance().create(TmdbApi.class);
+        tmdbApi = TmdbRetrofitService.Companion.getInstance().create(TmdbApi.class);
     }
 
     public void requestMovies() {
@@ -39,7 +39,8 @@ public class MoviesRepository implements IMoviesRepository, Callback<DiscoveredM
         if (call.isExecuted()) {
             if(response.body() != null) {
                 List<MovieFromRetrofit> moviesFromRetrofit = response.body().getResults();
-                List<Movie> movies = MovieMapper.fromMovieOverviewToMovie(moviesFromRetrofit);
+                List<Movie> movies = MovieMapper.Companion
+                        .fromMovieOverviewToMovie(moviesFromRetrofit);
                 viewModel.fetchMovies(movies);
             }
         } else if (call.isCanceled()) {

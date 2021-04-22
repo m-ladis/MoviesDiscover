@@ -18,7 +18,7 @@ public class MovieDetailsRepository implements IMovieDetailsRepository {
 
     public MovieDetailsRepository(IMovieDetailsViewModel viewModel) {
         this.viewModel = viewModel;
-        tmdbApi = TmdbRetrofitService.getInstance().create(TmdbApi.class);
+        tmdbApi = TmdbRetrofitService.Companion.getInstance().create(TmdbApi.class);
     }
 
     @Override

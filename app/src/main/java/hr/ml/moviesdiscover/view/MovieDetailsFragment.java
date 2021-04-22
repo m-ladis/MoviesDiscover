@@ -1,7 +1,5 @@
 package hr.ml.moviesdiscover.view;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -131,8 +129,8 @@ public class MovieDetailsFragment extends Fragment {
         movieYear.setText("(" + movie.getReleaseDate() + ")");
         movieRating.setText(movie.getVoteAverage() + "/10\nVotes: " + movie.getVoteCount());
         movieDescription.setText(movie.getOverview());
-        String imageUrl = TmdbImageUrl
-                .generatePosterUrl(movie.getPosterPath(), TmdbImageUrl.PosterWidth.w342);
+        String imageUrl = TmdbImageUrl.Companion
+                .generatePosterUrl(movie.getPosterPath(), TmdbImageUrl.PosterWidth.W342);
         Picasso.get()
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_outline_image)
@@ -140,7 +138,8 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void updateUiWith(MovieDetailsFromRetrofit movieDetailsFromRetrofit) {
-        movieGenres.setText(UiListToString.genresToString(movieDetailsFromRetrofit.getGenres()));
+        movieGenres.setText(
+                UiListToString.Companion.genresToString(movieDetailsFromRetrofit.getGenres()));
 
         if(movieDetailsFromRetrofit.getBudget() > 0) {
             movieBudgetLabel.setVisibility(View.VISIBLE);
