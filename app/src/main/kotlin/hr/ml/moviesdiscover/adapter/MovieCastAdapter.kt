@@ -25,12 +25,17 @@ class MovieCastAdapter :
 
     override fun onBindViewHolder(holder: MovieCastViewHolder, position: Int) {
         val cast = getItem(position)
-        val imageUrl = TmdbImageUrl.generateProfileUrl(
-                cast.profilePath, TmdbImageUrl.ProfileWidth.W185)
 
-        holder.castName.setText(cast.name)
-        Picasso.get().load(imageUrl).placeholder(R.drawable.ic_baseline_portrait)
-                .into(holder.castImage)
+
+        holder.castName.text = cast.name
+
+        if (!cast.profilePath.isNullOrEmpty()) {
+            val imageUrl = TmdbImageUrl.generateProfileUrl(
+                    cast.profilePath, TmdbImageUrl.ProfileWidth.W185)
+
+            Picasso.get().load(imageUrl).placeholder(R.drawable.ic_baseline_portrait)
+                    .into(holder.castImage)
+        }
     }
 
     class MovieCastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -43,6 +48,6 @@ class MovieCastAdapter :
                 oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: CastFromRetrofit, newItem: CastFromRetrofit) =
-                oldItem.name == newItem.name
+                oldItem == newItem
     }
 }

@@ -7,15 +7,20 @@ class MovieMapper {
 
     companion object {
 
-        fun fromMovieOverviewToMovie(moviesFromRetrofit: List<MovieFromRetrofit>): List<Movie> {
+        fun fromMovieOverviewToMovie(moviesFromRetrofit: List<MovieFromRetrofit>?): List<Movie> {
             val movies = mutableListOf<Movie>()
 
-            for (movieFromRetrofit in moviesFromRetrofit) {
-
-                movies.add(Movie(movieFromRetrofit.id, movieFromRetrofit.title,
-                        movieFromRetrofit.originalLanguage, movieFromRetrofit.releaseDate,
-                        movieFromRetrofit.posterPath, movieFromRetrofit.voteAverage,
-                        movieFromRetrofit.voteCount, movieFromRetrofit.overview))
+            val it = moviesFromRetrofit?.iterator()
+            while (it?.hasNext() == true) {
+                val movieFromRetrofit = it.next()
+                movies.add(Movie(movieFromRetrofit.id,
+                        movieFromRetrofit.title.orEmpty(),
+                        movieFromRetrofit.originalLanguage.orEmpty(),
+                        movieFromRetrofit.releaseDate.orEmpty(),
+                        movieFromRetrofit.posterPath.orEmpty(),
+                        movieFromRetrofit.voteAverage,
+                        movieFromRetrofit.voteCount,
+                        movieFromRetrofit.overview.orEmpty()))
             }
 
             return movies
